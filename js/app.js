@@ -26,9 +26,6 @@ function createNote(content) {
   main.appendChild(note);
 }
 
-//  let textArea = document.querySelector("textarea");
-// console.log(textArea.value);
-
 main.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
     e.target.closest(".notes-box").remove();
