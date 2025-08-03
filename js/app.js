@@ -1,18 +1,51 @@
 let addNoteBtn = document.querySelector("#add-btn");
-// let delNote = document.querySelectorAll('.delete');
 let main = document.getElementById("main");
 
-addNoteBtn.addEventListener("click", () => {
-  // alert('welcome')
+window.addEventListener('DOMContentLoaded', showNotes);
+
+addNoteBtn.addEventListener("click", (e) => {
+  // console.log(e);
+  e.preventDefault();
+  createNote('');
+  saveNotes();
+});
+function createNote(content) {
   let note = document.createElement("div");
+
   note.classList.add("notes-box");
-  note.innerHTML = ` <div class="notes-h">
+  note.innerHTML = ` 
+  <div class="notes-h">
    <i class="fa-solid fa-trash delete"></i>
    </div>
- <textarea type="text" class="notes-list"></textarea>`;
+ <textarea type="text" class="notes-list">${content}</textarea>`;
 
-  note.querySelector(".delete").addEventListener("click", (e) => {
-    e.target.parentNode.parentNode.remove();
-  });
+  // Save on typing
+  let textArea = note.querySelector("textarea");
+  textArea.addEventListener("input", saveNotes);
+
   main.appendChild(note);
+}
+
+//  let textArea = document.querySelector("textarea");
+// console.log(textArea.value);
+
+main.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete")) {
+    e.target.closest(".notes-box").remove();
+    saveNotes();
+  }
 });
+
+function saveNotes() {
+  let allNotes = document.querySelectorAll('.notes-list');
+  let notesData = [];
+  allNotes.forEach(val => {
+      notesData.push(val.value);
+  })
+  localStorage.setItem("notes", JSON.stringify(notesData));
+}
+// Show saved notes from localStorage on load
+function showNotes() {
+  let savedNotes = JSON.parse(localStorage.getItem('notes')) ?? [];
+  savedNotes.forEach(noteText => createNote(noteText));
+}
