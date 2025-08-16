@@ -15,7 +15,7 @@ function createNote(content) {
   note.classList.add("notes-box");
   note.innerHTML = ` 
   <div class="notes-h">
-   <i class="fa-solid fa-trash delete"></i>
+   <i class="fa-solid fa-trash delete text-light"></i>
    </div>
  <textarea type="text" class="notes-list">${content}</textarea>`;
 
@@ -45,4 +45,6 @@ function saveNotes() {
 function showNotes() {
   let savedNotes = JSON.parse(localStorage.getItem('notes')) ?? [];
   savedNotes.forEach(noteText => createNote(noteText));
+  console.log(savedNotes);
+  
 }
